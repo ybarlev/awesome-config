@@ -43,6 +43,30 @@ function signals:init(args)
 		end
 	)
 
+    -- Move tags to the right tag on disconnected screen --
+    tag.connect_signal("request::screen",
+        function(t)
+            local fallback_tag = nil
+
+            -- find tag with same name on any other screen
+            for other_screen in screen do
+              if other_screen ~= t.screen then
+                fallback_tag = awful.tag.find_by_name(other_screen, t.name)
+                if fallback_tag ~= nil then
+                  break
+                end
+              end
+            end
+
+            -- no tag with same name exists, chose random one
+            if fallback_tag == nil then
+              fallback_tag = awful.tag.find_fallback()
+            end
+
+            -- delete the tag and move it to other screen
+            t:delete(fallback_tag, true)
+        end)
+
 	-- enable sloppy focus, so that focus follows mouse
 	if env.sloppy_focus then
 		client.connect_signal("mouse::enter", do_sloppy_focus)
