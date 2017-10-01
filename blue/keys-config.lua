@@ -599,6 +599,10 @@ function hotkeys:init(args)
 			{ description = "Window control mode", group = "Main" }
 		},
 		{
+			{}, "F12", function () awful.spawn("xlock -mode blank") end,
+			{ description = "Lock the session", group = "Main" }
+		},
+		{
 			{ env.mod, "Control" }, "r", awesome.restart,
 			{ description = "Reload awesome", group = "Main" }
 		},
