@@ -72,7 +72,19 @@ function rules:init(args)
 		{
 			rule_any   = { type = { "normal" }},
 			properties = { placement = awful.placement.no_overlap + awful.placement.no_offscreen }
-		}
+		},
+		{
+			rule  = { class = "Google-chrome"},
+            properties = { tag = "web" },
+		},
+		{
+			rule  = { class = "Gnome-terminal"},
+            properties = { tag = "term" },
+		},
+		{
+			rule  = { class = "Kodi"},
+            properties = { tag = "media" },
+		},
 	}
 
 
