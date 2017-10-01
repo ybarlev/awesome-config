@@ -745,7 +745,7 @@ function hotkeys:init(args)
 			{ description = "Select previous layout", group = "Layouts" }
 		},
 		{
-			{ env.mod }, "o", awful.client.movetoscreen,
+			{ env.mod }, "o", function() client.focus:move_to_screen() end,
 			{ description = "Move client to next screen", group = "Multiscreens" }
 		},
 		{
