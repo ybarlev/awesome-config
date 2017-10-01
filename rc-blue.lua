@@ -238,8 +238,8 @@ awful.screen.connect_for_each_screen(
 				layout = wibox.layout.fixed.horizontal,
 
 				separator,
-				-- env.wrapper(kbindicator.widget, "keyboard", kbindicator.buttons),
-				-- separator,
+				awful.widget.keyboardlayout(),
+				separator,
 				-- env.wrapper(sysmon.widget.network, "network"),
 				-- separator,
 				env.wrapper(sysmon.widget.cpuram, "cpuram", sysmon.buttons.cpuram),
