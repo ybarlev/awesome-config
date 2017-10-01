@@ -112,8 +112,23 @@ local function move_client_to_proper_tag()
     local new_screen_indx = (current_screen_indx % screen:count()) + 1
     local tag_name = cl.first_tag.name or nil
     local new_tag = awful.tag.find_by_name(screen[new_screen_indx], tag_name)
-    cl:move_to_screen()
+    cl:move_to_screen(new_screen_indx)
     cl:move_to_tag(new_tag)
+    new_tag:view_only()
+end
+
+local function copy_clients_to_other_screen()
+    local current_screen_indx = awful.screen.focused().index
+    local new_screen_indx = (current_screen_indx % screen:count()) + 1
+    local t = awful.screen.focused().selected_tag or nil
+    local tag_name = t.name
+    local new_tag = awful.tag.find_by_name(screen[new_screen_indx], tag_name)
+	for _, cl in ipairs(client.get(awful.screen.focused())) do
+        if cl.first_tag == t then
+            cl:move_to_screen(new_screen_indx)
+            cl:move_to_tag(new_tag)
+        end
+	end
     new_tag:view_only()
 end
 
@@ -760,6 +775,10 @@ function hotkeys:init(args)
 		{
 			{ env.mod }, "o", function() move_client_to_proper_tag() end, 
 			{ description = "Move client to next screen", group = "Multiscreens" }
+		},
+		{
+			{ env.mod, "Shift" }, "o", function() copy_clients_to_other_screen() end, 
+			{ description = "Move all tag client to next screen", group = "Multiscreens" }
 		},
 		{
 			{}, "XF86Display", function() awful.spawn.with_shell("~/bin/toggle_screen_auto") end,
