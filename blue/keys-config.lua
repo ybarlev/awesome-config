@@ -762,7 +762,7 @@ function hotkeys:init(args)
 			{ description = "Toggle fullscreen", group = "Client keys" }
 		},
 		{
-			{ env.mod }, "F4", function(c) c:kill() end,
+			{ env.mod, "Shift" }, "c", function(c) c:kill() end,
 			{ description = "Close", group = "Client keys" }
 		},
 		{
