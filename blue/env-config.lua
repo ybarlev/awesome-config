@@ -23,7 +23,7 @@ function env:init(args)
 	local theme = args.theme or "red"
 
 	-- environment vars
-	self.terminal = args.terminal or "urxvt"
+	self.terminal = args.terminal or "gnome-terminal"
 	self.mod = args.mod or "Mod4"
 	self.fm = args.fm or "nemo"
 	self.mail = args.mail or "evolution"
