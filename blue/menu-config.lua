@@ -43,9 +43,9 @@ function menu:init(args)
 	------------------------------------------------------------
 	local awesomemenu = {
 		{ "Restart",         awesome.restart,                 micon("gnome-session-reboot") },
-		separator,
-		{ "Awesome config",  env.fm .. " .config/awesome",        micon("folder-bookmarks") },
-		{ "Awesome lib",     env.fm .. " /usr/share/awesome/lib", micon("folder-bookmarks") }
+		-- separator,
+		-- { "Awesome config",  env.fm .. " .config/awesome",        micon("folder-bookmarks") },
+		-- { "Awesome lib",     env.fm .. " /usr/share/awesome/lib", micon("folder-bookmarks") }
 	}
 
 	-- Places submenu
@@ -64,8 +64,7 @@ function menu:init(args)
 	-- Exit submenu
 	------------------------------------------------------------
 	local exitmenu = {
-		{ "Reboot",          "reboot",                    micon("gnome-session-reboot")  },
-		{ "Switch user",     "dm-tool switch-to-greeter", micon("gnome-session-switch")  },
+		{ "Reboot",          "systemctl reboot",          micon("gnome-session-reboot")  },
 		{ "Suspend",         "systemctl suspend" ,        micon("gnome-session-suspend") },
 		{ "Log out",         awesome.quit,                micon("exit")                },
 	}
@@ -76,11 +75,11 @@ function menu:init(args)
 		items = {
 			{ "Awesome",       awesomemenu, micon("awesome") },
 			{ "Applications",  appmenu,     micon("distributor-logo") },
-			{ "Places",        placesmenu,  micon("folder_home"), key = "c" },
-			separator,
-			{ "Firefox", "firefox", micon("firefox") },
-			{ "Nemo",    "nemo",    micon("folder") },
-			{ "Emacs",   "emacs",   micon("emacs") },
+			-- { "Places",        placesmenu,  micon("folder_home"), key = "c" },
+			-- separator,
+			-- { "Firefox", "firefox", micon("firefox") },
+			-- { "Nemo",    "nemo",    micon("folder") },
+			-- { "Emacs",   "emacs",   micon("emacs") },
 			separator,
 			{ "Exit",     exitmenu,       micon("exit") },
 			{ "Shutdown", "shutdown now", micon("system-shutdown") }
