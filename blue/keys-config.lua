@@ -677,11 +677,11 @@ function hotkeys:init(args)
 		},
 
 		{
-			{}, "XF86MonBrightnessUp", function() brightness({ step = 1 }) end,
+			{}, "XF86MonBrightnessUp", function() brightness({ step = 5 }) end,
 			{ description = "Increase brightness", group = "Brightness control" }
 		},
 		{
-			{}, "XF86MonBrightnessDown", function() brightness({ step = 1, down = true }) end,
+			{}, "XF86MonBrightnessDown", function() brightness({ step = 5, down = true }) end,
 			{ description = "Reduce brightness", group = "Brightness control" }
 		},
 
@@ -711,7 +711,7 @@ function hotkeys:init(args)
 			{ description = "Reduce volume", group = "Volume control" }
 		},
 		{
-			{ env.mod }, "v", volume_mute,
+			{}, "XF86AudioMute", volume_mute,
 			{ description = "Toggle mute", group = "Volume control" }
 		},
 
@@ -743,6 +743,14 @@ function hotkeys:init(args)
 		{
 			{ env.mod }, "Down", function() awful.layout.inc(-1) end,
 			{ description = "Select previous layout", group = "Layouts" }
+		},
+		{
+			{ env.mod }, "o", awful.client.movetoscreen,
+			{ description = "Move client to next screen", group = "Multiscreens" }
+		},
+		{
+			{}, "XF86Display", function() awful.spawn.with_shell("~/bin/toggle_screen_auto") end,
+			{ description = "(Dis)connect other screen", group = "Multiscreens" }
 		},
 	}
 
