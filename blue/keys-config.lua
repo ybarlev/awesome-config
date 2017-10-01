@@ -104,6 +104,19 @@ local function client_numkey(i, mod, action)
 	)
 end
 
+-- moves clients to correct tags --
+local function move_client_to_proper_tag()
+    local cl = client.focus
+    if not cl then return end
+    local current_screen_indx = cl.screen.index or nil
+    local new_screen_indx = (current_screen_indx % screen:count()) + 1
+    local tag_name = cl.first_tag.name or nil
+    local new_tag = awful.tag.find_by_name(screen[new_screen_indx], tag_name)
+    cl:move_to_screen()
+    cl:move_to_tag(new_tag)
+    new_tag:view_only()
+end
+
 -- volume functions
 local volume_raise = function() redflat.widget.pulse:change_volume({ show_notify = true })              end
 local volume_lower = function() redflat.widget.pulse:change_volume({ show_notify = true, down = true }) end
@@ -745,7 +758,7 @@ function hotkeys:init(args)
 			{ description = "Select previous layout", group = "Layouts" }
 		},
 		{
-			{ env.mod }, "o", function() client.focus:move_to_screen() end,
+			{ env.mod }, "o", function() move_client_to_proper_tag() end, 
 			{ description = "Move client to next screen", group = "Multiscreens" }
 		},
 		{
