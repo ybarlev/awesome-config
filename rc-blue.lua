@@ -138,21 +138,6 @@ kbindicator.buttons = awful.util.table.join(
 	awful.button({}, 5, function () redflat.widget.keyboard:toggle(true)  end)
 )
 
--- Mail widget
---------------------------------------------------------------------------------
--- safe load private mail settings
-local my_mails = {}
-pcall(function() my_mails = require("blue.mail-config") end)
-
--- widget setup
-local mail = {}
-mail.widget = redflat.widget.mail({ maillist = my_mails })
-
--- buttons
-mail.buttons = awful.util.table.join(
-	awful.button({ }, 1, function () awful.spawn.with_shell(env.mail) end),
-	awful.button({ }, 2, function () redflat.widget.mail:update() end)
-)
 
 -- System resource monitoring widgets
 --------------------------------------------------------------------------------
@@ -165,7 +150,7 @@ sysmon.icon.cpuram = redflat.util.table.check(beautiful, "icon.widget.monitor")
 
 -- battery
 sysmon.widget.battery = redflat.widget.sysmon(
-	{ func = redflat.system.pformatted.bat(25), arg = "BAT1" },
+	{ func = redflat.system.pformatted.bat(25), arg = "BAT0" },
 	{ timeout = 60, widget = redflat.gauge.icon.single, monitor = { is_vertical = true, icon = sysmon.icon.battery } }
 )
 
@@ -217,7 +202,7 @@ awful.screen.connect_for_each_screen(
 		env.wallpaper(s)
 
 		-- tags
-		awful.tag({ "Main", "Full", "Edit", "Read", "Free" }, s, { al[5], al[6], al[6], al[4], al[3] })
+		awful.tag({ "web", "term", "media"}, s, al[1])
 
 		-- layoutbox widget
 		layoutbox[s] = redflat.widget.layoutbox({ screen = s })
@@ -253,12 +238,10 @@ awful.screen.connect_for_each_screen(
 				layout = wibox.layout.fixed.horizontal,
 
 				separator,
-				env.wrapper(mail.widget, "mail", mail.buttons),
-				separator,
-				env.wrapper(kbindicator.widget, "keyboard", kbindicator.buttons),
-				separator,
-				env.wrapper(sysmon.widget.network, "network"),
-				separator,
+				-- env.wrapper(kbindicator.widget, "keyboard", kbindicator.buttons),
+				-- separator,
+				-- env.wrapper(sysmon.widget.network, "network"),
+				-- separator,
 				env.wrapper(sysmon.widget.cpuram, "cpuram", sysmon.buttons.cpuram),
 				separator,
 				env.wrapper(volume.widget, "volume", volume.buttons),
@@ -275,8 +258,8 @@ awful.screen.connect_for_each_screen(
 
 -- Desktop widgets
 -----------------------------------------------------------------------------------------------------------------------
-local desktop = require("blue.desktop-config") -- load file with desktop widgets configuration
-desktop:init({ env = env })
+-- local desktop = require("blue.desktop-config") -- load file with desktop widgets configuration
+-- desktop:init({ env = env })
 
 
 -- Active screen edges
@@ -313,6 +296,6 @@ signals:init({ env = env })
 -----------------------------------------------------------------------------------------------------------------------
 local autostart = require("blue.autostart-config") -- load file with autostart application list
 
-if timestamp.is_startup() then
-	autostart.run()
-end
+-- if timestamp.is_startup() then
+-- 	autostart.run()
+-- end
