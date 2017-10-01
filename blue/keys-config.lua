@@ -752,6 +752,14 @@ function hotkeys:init(args)
 			{}, "XF86Display", function() awful.spawn.with_shell("~/bin/toggle_screen_auto") end,
 			{ description = "(Dis)connect other screen", group = "Multiscreens" }
 		},
+		{
+			{ env.mod, "Control" }, "j", function() awful.screen.focus_relative(1) end,
+			{ description = "Move focus to next screen", group = "Multiscreens" }
+		},
+		{
+			{ env.mod, "Control" }, "k", function() awful.screen.focus_relative(-1) end,
+			{ description = "Move focus to previous screen", group = "Multiscreens" }
+		},
 	}
 
 	-- Client keys
