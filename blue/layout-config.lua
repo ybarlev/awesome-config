@@ -18,13 +18,13 @@ function layouts:init(args)
 
 	-- layouts list
 	local layset = {
-		awful.layout.suit.floating,
-		redflat.layout.grid,
+		-- redflat.layout.grid,
 		awful.layout.suit.tile,
 		awful.layout.suit.fair,
-		redflat.layout.map,
-		awful.layout.suit.max,
-		awful.layout.suit.max.fullscreen,
+		awful.layout.suit.floating,
+		-- redflat.layout.map,
+		-- awful.layout.suit.max,
+		-- awful.layout.suit.max.fullscreen,
 	}
 
 	awful.layout.layouts = layset
