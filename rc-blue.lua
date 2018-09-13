@@ -296,6 +296,6 @@ signals:init({ env = env })
 -----------------------------------------------------------------------------------------------------------------------
 local autostart = require("blue.autostart-config") -- load file with autostart application list
 
--- if timestamp.is_startup() then
--- 	autostart.run()
--- end
+if timestamp.is_startup() then
+	autostart.run()
+end
