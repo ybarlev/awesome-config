@@ -599,7 +599,7 @@ function hotkeys:init(args)
 			{ description = "Window control mode", group = "Main" }
 		},
 		{
-			{}, "F12", function () awful.spawn.with_shell("LANG=C xlock -mode blank") end,
+			{}, "F12", function () awful.spawn.with_shell("light-locker-command -l") end,
 			{ description = "Lock the session", group = "Main" }
 		},
 		{
