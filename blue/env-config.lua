@@ -26,7 +26,7 @@ function env:init(args)
 	self.terminal = args.terminal or "gnome-terminal"
 	self.mod = args.mod or "Mod4"
 	self.fm = args.fm or "pcmanfm"
-	self.mail = args.mail or "evolution"
+	self.mail = args.mail or "thunderbird"
 	self.player = args.player or "exaile"
 	self.upgrades = args.upgrades or "bash -c 'pacman -Qu | grep -v ignored | wc -l'"
 	self.home = os.getenv("HOME")
