@@ -87,7 +87,7 @@ textclock.widget = redflat.widget.textclock({ timeformat = "%H:%M", dateformat =
 -- Software update indcator
 --------------------------------------------------------------------------------
 local upgrades = {}
-upgrades.widget = redflat.widget.upgrades({ command = "bash -c 'pacman -Qu | wc -l'" })
+upgrades.widget = redflat.widget.upgrades({ command = env.upgrades })
 
 -- Layoutbox configure
 --------------------------------------------------------------------------------
@@ -103,7 +103,7 @@ layoutbox.buttons = awful.util.table.join(
 -- Tray widget
 --------------------------------------------------------------------------------
 local tray = {}
-tray.widget = redflat.widget.minitray({ timeout = 10 })
+tray.widget = redflat.widget.minitray(nil, { double_wibox = true })
 
 tray.buttons = awful.util.table.join(
 	awful.button({}, 1, function() redflat.widget.minitray:toggle() end)
@@ -138,6 +138,21 @@ kbindicator.buttons = awful.util.table.join(
 	awful.button({}, 5, function () redflat.widget.keyboard:toggle(true)  end)
 )
 
+-- Mail widget
+--------------------------------------------------------------------------------
+-- safe load private mail settings
+local my_mails = {}
+pcall(function() my_mails = require("blue.mail-config") end)
+
+-- widget setup
+local mail = {}
+mail.widget = redflat.widget.mail({ maillist = my_mails, update_timeout = 1800 })
+
+-- buttons
+mail.buttons = awful.util.table.join(
+	awful.button({ }, 1, function () awful.spawn.with_shell(env.mail) end),
+	awful.button({ }, 2, function () redflat.widget.mail:update() end)
+)
 
 -- System resource monitoring widgets
 --------------------------------------------------------------------------------
@@ -157,9 +172,9 @@ sysmon.widget.battery = redflat.widget.sysmon(
 -- network speed
 sysmon.widget.network = redflat.widget.net(
 	{
-		interface = "wlp3s0",
-		alert = { up = 4 * 1024^2, down = 4 * 1024^2 },
-		speed = { up = 5 * 1024^2, down = 5 * 1024^2 },
+		interface = "wlp2s0",
+		alert = { up = 5 * 1024^2, down = 5 * 1024^2 },
+		speed = { up = 6 * 1024^2, down = 6 * 1024^2 },
 		autoscale = false
 	},
 	{ timeout = 2, widget = redflat.gauge.monitor.double, monitor = { icon = sysmon.icon.network } }
@@ -238,10 +253,12 @@ awful.screen.connect_for_each_screen(
 				layout = wibox.layout.fixed.horizontal,
 
 				separator,
-				awful.widget.keyboardlayout(),
+				env.wrapper(mail.widget, "mail", mail.buttons),
 				separator,
-				-- env.wrapper(sysmon.widget.network, "network"),
-				-- separator,
+				env.wrapper(kbindicator.widget, "keyboard", kbindicator.buttons),
+				separator,
+				env.wrapper(sysmon.widget.network, "network"),
+				separator,
 				env.wrapper(sysmon.widget.cpuram, "cpuram", sysmon.buttons.cpuram),
 				separator,
 				env.wrapper(volume.widget, "volume", volume.buttons),
@@ -270,8 +287,10 @@ edges:init()
 
 -- Key bindings
 -----------------------------------------------------------------------------------------------------------------------
+local appkeys = require("blue.appkeys-config") -- load file with application keys sheet
+
 local hotkeys = require("blue.keys-config") -- load file with hotkeys configuration
-hotkeys:init({ env = env, menu = mymenu.mainmenu })
+hotkeys:init({ env = env, menu = mymenu.mainmenu, appkeys = appkeys })
 
 
 -- Rules

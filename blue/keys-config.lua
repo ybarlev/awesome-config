@@ -5,8 +5,6 @@
 -- Grab environment
 local table = table
 local awful = require("awful")
-local beautiful = require("beautiful")
-
 local redflat = require("redflat")
 
 -- Initialize tables and vars for module
@@ -157,6 +155,7 @@ function hotkeys:init(args)
 	local args = args or {}
 	local env = args.env
 	local mainmenu = args.menu
+	local appkeys = args.appkeys or {}
 
 	self.mouse.root = (awful.util.table.join(
 		awful.button({ }, 3, function () mainmenu:toggle() end),
@@ -166,6 +165,26 @@ function hotkeys:init(args)
 
 	-- Init widgets
 	redflat.float.qlaunch:init()
+
+	-- Application hotkeys helper
+	--------------------------------------------------------------------------------
+	local apphelper = function(appkeys)
+		if not client.focus then return end
+
+		local app = client.focus.class:lower()
+		for name, sheet in pairs(appkeys) do
+			if name == app then
+				redtip:set_pack(
+						client.focus.class, sheet.pack, sheet.style.column, sheet.style.geometry,
+						function() redtip:remove_pack() end
+				)
+				redtip:show()
+				return
+			end
+		end
+
+		redflat.float.notify:show({ text = "No tips for " .. client.focus.class })
+	end
 
 	-- Keys for widgets
 	--------------------------------------------------------------------------------
@@ -212,7 +231,7 @@ function hotkeys:init(args)
 
 	-- Appswitcher widget
 	------------------------------------------------------------
-	appswitcher_keys = {
+	local appswitcher_keys = {
 		{
 			{ env.mod }, "a", function() appswitcher:switch() end,
 			{ description = "Select next app", group = "Navigation" }
@@ -592,7 +611,11 @@ function hotkeys:init(args)
 	self.raw.root = {
 		{
 			{ env.mod }, "F1", function() redtip:show() end,
-			{ description = "Show hotkeys helper", group = "Main" }
+			{ description = "Show awesome hotkeys helper", group = "Main" }
+		},
+		{
+			{ env.mod, "Control" }, "F1", function() apphelper(appkeys) end,
+			{ description = "Show hotkeys helper for application", group = "Main" }
 		},
 		{
 			{ env.mod }, "F2", function () redflat.service.navigator:run() end,
@@ -709,11 +732,11 @@ function hotkeys:init(args)
 		},
 
 		{
-			{}, "XF86MonBrightnessUp", function() brightness({ step = 5 }) end,
+			{}, "XF86MonBrightnessUp", function() brightness({ step = 2 }) end,
 			{ description = "Increase brightness", group = "Brightness control" }
 		},
 		{
-			{}, "XF86MonBrightnessDown", function() brightness({ step = 5, down = true }) end,
+			{}, "XF86MonBrightnessDown", function() brightness({ step = 2, down = true }) end,
 			{ description = "Reduce brightness", group = "Brightness control" }
 		},
 
@@ -796,6 +819,11 @@ function hotkeys:init(args)
 			{ env.mod, "Control" }, "k", function() awful.screen.focus_relative(-1) end,
 			{ description = "Move focus to previous screen", group = "Multiscreens" }
 		},
+
+		{
+			{ env.mod, "Control" }, "s", function() for s in screen do env.wallpaper(s) end end,
+			{} -- hidden key
+		}
 	}
 
 	-- Client keys

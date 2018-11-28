@@ -4,7 +4,7 @@
 local awful = require("awful")
 
 local theme = {}
-local wa = mouse.screen.workarea
+--local wa = mouse.screen.workarea
 
 -- Color scheme
 -----------------------------------------------------------------------------------------------------------------------
@@ -17,7 +17,7 @@ theme.color = {
 	icon      = "#a0a0a0",
 	text      = "#aaaaaa",
 	urgent    = "#B32601",
-	highlight = "#ffffff",
+	highlight = "#e0e0e0",
 
 	border    = "#404040",
 	shadow1   = "#141414",
@@ -232,7 +232,7 @@ theme.service.dfparser = {
 		'~/.local/share/applications',
 	},
 	icons = {
-		df_icon       = theme.homedir .. "/.icons/ACYLS/scalable/mimetypes/application-x-executable.svg",
+		df_icon       = theme.path .. "/common/system.svg",
 		theme         = theme.homedir .. "/.icons/ACYLS",
 		custom_only   = true,
 		scalable_only = true
@@ -305,7 +305,7 @@ theme.gauge.tag.blue = {
 -- Task
 ------------------------------------------------------------
 theme.gauge.task.blue = {
-	width    = 80,
+	width    = 70,
 	show_min = true,
 	font     = theme.cairo_fonts.tag,
 	point    = { width = 70, height = 3, gap = 27, dx = 5 },
@@ -470,7 +470,6 @@ theme.widget.layoutbox.name_alias = {
 -- Tasklist
 ------------------------------------------------------------
 theme.widget.tasklist = {
-	width       = 70,
 	char_digit  = 5,
 	task        = theme.gauge.task.blue
 }
@@ -482,6 +481,7 @@ theme.widget.tasklist.winmenu = {
 	menu           = { width = 220, color = { right_icon = theme.color.icon }, ricon_margin = { 9, 9, 9, 9 } },
 	state_iconsize = { width = 18, height = 18 },
 	layout_icon    = theme.widget.layoutbox.icon,
+	hide_action    = { min = false, move = false },
 	color          = theme.color
 }
 
@@ -513,6 +513,19 @@ theme.widget.tasklist.winmenu.icon = {
 -- Floating widgets
 -----------------------------------------------------------------------------------------------------------------------
 theme.float = { decoration = {} }
+
+-- Client menu
+------------------------------------------------------------
+theme.float.clientmenu = {
+	micon          = theme.icon,
+	color          = theme.color,
+	actionline     = { height = 28 },
+	layout_icon    = theme.widget.layoutbox.icon,
+	menu           = theme.widget.tasklist.winmenu.menu,
+	state_iconsize = theme.widget.tasklist.winmenu.state_iconsize,
+	tagmenu        = theme.widget.tasklist.winmenu.tagmenu,
+	icon           = theme.widget.tasklist.winmenu.icon,
+}
 
 -- Audio player
 ------------------------------------------------------------
@@ -592,8 +605,8 @@ theme.float.qlaunch = {
 	border_width  = 0,
 	appline       = { iwidth = 140, im = { 5, 5, 0, 0 }, igap = { 0, 0, 5, 15 }, lheight = 26 },
 	state         = { gap = 5, radius = 5, size = 10,  height = 14 },
-	df_icon       = theme.homedir .. "/.icons/ACYLS/scalable/mimetypes/application-x-executable.svg",
-	no_icon       = theme.homedir .. "/.icons/ACYLS/scalable/apps/question.svg",
+	df_icon       = theme.path .. "/common/system.svg",
+	no_icon       = theme.path .. "/common/unknown.svg",
 	recoloring    = true,
 	keytip        = { geometry = { width = 600, height = 320 } },
 	label_font    = theme.fonts.qlaunch,
@@ -603,7 +616,7 @@ theme.float.qlaunch = {
 -- Hotkeys helper
 ------------------------------------------------------------
 theme.float.hotkeys = {
-	geometry      = { width = 1800, height = 970 },
+	geometry      = { width = 1800, height = 1000 },
 	border_margin = { 20, 20, 8, 10 },
 	border_width  = 0,
 	is_align      = true,
@@ -742,6 +755,9 @@ theme.border_marked = theme.color.main
 
 -- font
 theme.font = theme.fonts.main
+
+-- misc
+theme.enable_spawn_cursor = false
 
 -- End
 -----------------------------------------------------------------------------------------------------------------------

@@ -4,7 +4,7 @@
 local awful = require("awful")
 
 local theme = {}
-local wa = mouse.screen.workarea
+--local wa = mouse.screen.workarea
 
 -- Color scheme
 -----------------------------------------------------------------------------------------------------------------------
@@ -17,7 +17,7 @@ theme.color = {
 	icon      = "#a0a0a0",
 	text      = "#aaaaaa",
 	urgent    = "#00725B",
-	highlight = "#ffffff",
+	highlight = "#e0e0e0",
 
 	border    = "#404040",
 	shadow1   = "#141414",
@@ -223,7 +223,7 @@ theme.service.dfparser = {
 		'~/.local/share/applications',
 	},
 	icons = {
-		df_icon       = theme.homedir .. "/.icons/ACYLS/scalable/mimetypes/application-x-executable.svg",
+		df_icon       = theme.path .. "/common/system.svg",
 		theme         = theme.homedir .. "/.icons/ACYLS",
 		custom_only   = true,
 		scalable_only = true
@@ -490,6 +490,7 @@ theme.widget.tasklist.winmenu = {
 	tagmenu        = { width = 180, color = { right_icon = theme.color.icon, left_icon = theme.color.icon },
 	                   icon_margin = { 10, 12, 9, 9 } },
 	layout_icon    = theme.widget.layoutbox.icon,
+	hide_action    = { min = false, move = false },
 	color          = theme.color
 }
 
@@ -530,6 +531,21 @@ theme.widget.tasklist.appnames["Claws-mail"          ] = "CML"
 -- Floating widgets
 -----------------------------------------------------------------------------------------------------------------------
 theme.float = { decoration = {} }
+
+-- Client menu
+------------------------------------------------------------
+theme.float.clientmenu = {
+	micon           = theme.icon,
+	color           = theme.color,
+	actionline      = { height = 28 },
+	stateline       = { height = 38 },
+	layout_icon     = theme.widget.layoutbox.icon,
+	menu            = theme.widget.tasklist.winmenu.menu,
+	state_iconsize  = theme.widget.tasklist.winmenu.state_iconsize,
+	action_iconsize = { width = 18, height = 18 },
+	tagmenu         = theme.widget.tasklist.winmenu.tagmenu,
+	icon            = theme.widget.tasklist.winmenu.icon,
+}
 
 -- Audio player
 ------------------------------------------------------------
@@ -604,8 +620,8 @@ theme.float.qlaunch = {
 	border_width  = 0,
 	appline       = { iwidth = 160, im = { 5, 5, 5, 5 }, igap = { 0, 0, 10, 10 }, lheight = 30 },
 	state         = { gap = 6, radius = 3, size = 10, height = 20, width = 20 },
-	df_icon       = theme.homedir .. "/.icons/ACYLS/scalable/mimetypes/application-x-executable.svg",
-	no_icon       = theme.homedir .. "/.icons/ACYLS/scalable/apps/question.svg",
+	df_icon       = theme.path .. "/common/system.svg",
+	no_icon       = theme.path .. "/common/unknown.svg",
 	recoloring    = true,
 	keytip        = { geometry = { width = 600, height = 320 } },
 	label_font    = theme.fonts.qlaunch,
@@ -615,7 +631,7 @@ theme.float.qlaunch = {
 -- Hotkeys helper
 ------------------------------------------------------------
 theme.float.hotkeys = {
-	geometry      = { width = 1800, height = 970 },
+	geometry      = { width = 1800, height = 1000 },
 	border_margin = { 20, 20, 8, 10 },
 	border_width  = 0,
 	is_align      = true,
@@ -754,6 +770,9 @@ theme.border_marked = theme.color.main
 
 -- font
 theme.font = theme.fonts.main
+
+-- misc
+theme.enable_spawn_cursor = false
 
 -- End
 -----------------------------------------------------------------------------------------------------------------------

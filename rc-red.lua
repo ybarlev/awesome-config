@@ -85,7 +85,7 @@ textclock.widget = redflat.widget.textclock({ timeformat = "%H:%M", dateformat =
 -- Software update indcator
 --------------------------------------------------------------------------------
 local upgrades = {}
-upgrades.widget = redflat.widget.upgrades({ command = "bash -c 'pacman -Qu | wc -l'" })
+upgrades.widget = redflat.widget.upgrades({ command = env.upgrades })
 
 upgrades.buttons = awful.util.table.join(
 	awful.button({ }, 1, function () mymenu.mainmenu:toggle() end),
@@ -105,7 +105,7 @@ layoutbox.buttons = awful.util.table.join(
 -- Tray widget
 --------------------------------------------------------------------------------
 local tray = {}
-tray.widget = redflat.widget.minitray({ timeout = 10 })
+tray.widget = redflat.widget.minitray()
 
 tray.buttons = awful.util.table.join(
 	awful.button({}, 1, function() redflat.widget.minitray:toggle() end)
@@ -162,13 +162,13 @@ local sysmon = { widget = {}, buttons = {} }
 
 -- battery
 sysmon.widget.battery = redflat.widget.sysmon(
-	{ func = redflat.system.pformatted.bat(25), arg = "BAT1" },
+	{ func = redflat.system.pformatted.bat(25), arg = "BAT0" },
 	{ timeout = 60, monitor = { label = "BAT" } }
 )
 
 -- network speed
 sysmon.widget.network = redflat.widget.net(
-	{ interface = "wlp3s0", speed = { up = 5 * 1024^2, down = 5 * 1024^2 }, autoscale = false },
+	{ interface = "wlp60s0", speed = { up = 6 * 1024^2, down = 6 * 1024^2 }, autoscale = false },
 	{ timeout = 2 }
 )
 
@@ -278,8 +278,10 @@ edges:init()
 
 -- Key bindings
 -----------------------------------------------------------------------------------------------------------------------
+local appkeys = require("red.appkeys-config") -- load file with application keys sheet
+
 local hotkeys = require("red.keys-config") -- load file with hotkeys configuration
-hotkeys:init({ env = env, menu = mymenu.mainmenu })
+hotkeys:init({ env = env, menu = mymenu.mainmenu, appkeys = appkeys })
 
 
 -- Rules

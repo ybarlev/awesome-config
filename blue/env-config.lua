@@ -27,7 +27,8 @@ function env:init(args)
 	self.mod = args.mod or "Mod4"
 	self.fm = args.fm or "pcmanfm"
 	self.mail = args.mail or "evolution"
-	self.player = args.player or "Lollypop"
+	self.player = args.player or "exaile"
+	self.upgrades = args.upgrades or "bash -c 'pacman -Qu | grep -v ignored | wc -l'"
 	self.home = os.getenv("HOME")
 	self.themedir = awful.util.get_configuration_dir() .. "themes/" .. theme
 
@@ -45,6 +46,10 @@ function env:init(args)
 		naughty.config.presets.normal   = redflat.util.table.merge(beautiful.naughty.base, beautiful.naughty.normal)
 		naughty.config.presets.critical = redflat.util.table.merge(beautiful.naughty.base, beautiful.naughty.critical)
 		naughty.config.presets.low      = redflat.util.table.merge(beautiful.naughty.base, beautiful.naughty.low)
+
+		-- dirty fix to ignore forced geometry for critical preset
+		-- For the sake of laziness I prefer fix some parameters after inherit than write pure table without inherit
+		naughty.config.presets.critical.height, naughty.config.presets.critical.width = nil, nil
 	end
 end
 
@@ -77,11 +82,8 @@ end
 -- Panel widgets wrapper
 --------------------------------------------------------------------------------
 env.wrapper = function(widget, name, buttons)
-	local margin = { 0, 0, 0, 0 }
-
-	if redflat.util.table.check(beautiful, "widget.wrapper") and beautiful.widget.wrapper[name] then
-		margin = beautiful.widget.wrapper[name]
-	end
+	local margin = redflat.util.table.check(beautiful, "widget.wrapper") and beautiful.widget.wrapper[name]
+	               and beautiful.widget.wrapper[name] or { 0, 0, 0, 0 }
 	if buttons then
 		widget:buttons(buttons)
 	end

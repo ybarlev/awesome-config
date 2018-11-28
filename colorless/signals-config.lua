@@ -19,6 +19,17 @@ local function do_sloppy_focus(c)
 	end
 end
 
+local function fixed_maximized_geometry(c, context)
+	if c.maximized and context ~= "fullscreen" then
+		c:geometry({
+			x = c.screen.workarea.x,
+			y = c.screen.workarea.y,
+			height = c.screen.workarea.height - 2 * c.border_width,
+			width = c.screen.workarea.width - 2 * c.border_width
+		})
+	end
+end
+
 -- Build  table
 -----------------------------------------------------------------------------------------------------------------------
 function signals:init(args)
@@ -66,6 +77,21 @@ function signals:init(args)
             -- delete the tag and move it to other screen
             t:delete(fallback_tag, true)
         end)
+
+	-- add missing borders to windows that get unmaximized
+	client.connect_signal(
+		"property::maximized",
+		function(c)
+			if not c.maximized then
+				c.border_width = beautiful.border_width
+			end
+		end
+	)
+
+	-- don't allow maximized windows move/resize themselves
+	client.connect_signal(
+		"request::geometry", fixed_maximized_geometry
+	)
 
 	-- enable sloppy focus, so that focus follows mouse
 	if env.sloppy_focus then

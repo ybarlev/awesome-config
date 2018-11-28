@@ -18,11 +18,10 @@ local system = redflat.system
 
 -- Desktop widgets
 -----------------------------------------------------------------------------------------------------------------------
-function desktop:init(args)
+function desktop:init()
 	if not beautiful.desktop then return end
 
-	local args = args or {}
-	local env = args.env
+--	local args = args or {}
 
 	-- placement
 	local grid = beautiful.desktop.grid
@@ -33,7 +32,7 @@ function desktop:init(args)
 	local netspeed = { geometry = wgeometry(grid, places.netspeed, workarea) }
 
 	netspeed.args = {
-		interface    = "wlp3s0",
+		interface    = "wlp60s0",
 		maxspeed     = { up = 5*1024^2, down = 5*1024^2 },
 		crit         = { up = 5*1024^2, down = 5*1024^2 },
 		timeout      = 2,
@@ -47,7 +46,7 @@ function desktop:init(args)
 	local ssdspeed = { geometry = wgeometry(grid, places.ssdspeed, workarea) }
 
 	ssdspeed.args = {
-		interface = "sdc",
+		interface = "nvme0n1",
 		meter_function = system.disk_speed,
 		timeout   = 2,
 		label     = "SOLID DRIVE"
@@ -62,7 +61,7 @@ function desktop:init(args)
 	local hddspeed = { geometry = wgeometry(grid, places.hddspeed, workarea) }
 
 	hddspeed.args = {
-		interface = "sdb",
+		interface = "sda",
 		meter_function = system.disk_speed,
 		timeout = 2,
 		label = "HARD DRIVE"
@@ -128,7 +127,7 @@ function desktop:init(args)
 	thermal.args = {
 		sensors = {
 			{ meter_function = system.thermal.sensors, args = "'Package id 0'", maxm = 100, crit = 75 },
-			{ meter_function = system.thermal.hddtemp, args = { disk = "/dev/sdb" }, maxm = 60, crit = 45 },
+			{ meter_function = system.thermal.hddtemp, args = { disk = "/dev/sda" }, maxm = 60, crit = 45 },
 			{ meter_function = system.thermal.nvoptimus, maxm = 105, crit = 80 }
 		},
 		names   = { "cpu", "hdd", "gpu" },

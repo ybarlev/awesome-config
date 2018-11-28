@@ -4,7 +4,7 @@
 local awful = require("awful")
 
 local theme = {}
-local wa = mouse.screen.workarea
+--local wa = mouse.screen.workarea
 
 -- Color scheme
 -----------------------------------------------------------------------------------------------------------------------
@@ -17,7 +17,7 @@ theme.color = {
 	icon      = "#a0a0a0",
 	text      = "#aaaaaa",
 	urgent    = "#B25500",
-	highlight = "#ffffff",
+	highlight = "#e0e0e0",
 
 	border    = "#404040",
 	shadow1   = "#141414",
@@ -186,7 +186,7 @@ theme.gauge.tag.orange = {
 -- Task
 ------------------------------------------------------------
 theme.gauge.task.blue = {
-	width    = 80,
+	width    = 70,
 	show_min = true,
 	font     = theme.cairo_fonts.tag,
 	point    = { width = 70, height = 3, gap = 27, dx = 5 },
@@ -299,7 +299,6 @@ theme.widget.layoutbox.name_alias = {
 -- Tasklist
 ------------------------------------------------------------
 theme.widget.tasklist = {
-	width       = 70,
 	char_digit  = 5,
 	task        = theme.gauge.task.blue
 }
@@ -337,9 +336,23 @@ theme.widget.tasklist.appnames = {}
 theme.widget.tasklist.appnames["Firefox"             ] = "FIFOX"
 theme.widget.tasklist.appnames["Gnome-terminal"      ] = "GTERM"
 
+
 -- Floating widgets
 -----------------------------------------------------------------------------------------------------------------------
 theme.float = { decoration = {} }
+
+-- Client menu
+------------------------------------------------------------
+theme.float.clientmenu = {
+	micon          = theme.icon,
+	color          = theme.color,
+	actionline     = { height = 28 },
+	layout_icon    = theme.widget.layoutbox.icon,
+	menu           = theme.widget.tasklist.winmenu.menu,
+	state_iconsize = theme.widget.tasklist.winmenu.state_iconsize,
+	tagmenu        = theme.widget.tasklist.winmenu.tagmenu,
+	icon           = theme.widget.tasklist.winmenu.icon,
+}
 
 -- Application runner
 ------------------------------------------------------------
@@ -391,11 +404,9 @@ theme.float.qlaunch = {
 	border_width  = 0,
 	appline       = { iwidth = 140, im = { 5, 5, 0, 0 }, igap = { 0, 0, 5, 15 }, lheight = 26 },
 	state         = { gap = 5, radius = 5, size = 10,  height = 14 },
-	-- df_icon       = theme.homedir .. "/.icons/ACYLS/scalable/mimetypes/application-x-executable.svg",
-	-- no_icon       = theme.homedir .. "/.icons/ACYLS/scalable/apps/question.svg",
-	df_icon       = theme.icon.warning,
-	keytip        = { geometry = { width = 600, height = 260 } },
+	df_icon       = theme.path .. "/common/system.svg",
 	no_icon       = theme.path .. "/common/unknown.svg",
+	keytip        = { geometry = { width = 600, height = 260 } },
 	label_font    = theme.fonts.qlaunch,
 	color         = theme.color,
 }
